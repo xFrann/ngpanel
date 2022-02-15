@@ -11,6 +11,12 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { getUser, login } from '../../auth/Authentication';
+import { themeOptions } from '../../utils/Theme'
+import { Rings } from "react-loader-spinner"
+import WarningIcon from '@mui/icons-material/Warning';
+
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -23,39 +29,43 @@ function Copyright(props) {
     </Typography>
   );
 }
-export const themeOptions = {
-    palette: {
-      type: 'dark',
-      primary: {
-        main: '#008080',
-      },
-      secondary: {
-        main: '#ffbe94',
-      },
-      error: {
-        main: '#fd5a61',
-      },
-      divider: 'rgba(255,255,255,0.67)',
-    },
-  };
-  
-const theme = createTheme(themeOptions);
-
-
 
 export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const formData = new FormData(event.currentTarget);
+
+    login(formData.get('email'), formData.get('password'))
+      .then(setLoading(true))
+      .then(response => {
+        getUser(response.access)
+          .then(user => {
+            setUser(user.data.username)
+            setLoading(false)
+          })
+      })
+      .catch(error => {
+        console.log("Error while fetching auth data " + error)
+        setLoginError(true)
+        // setTimeout(() => { setLoginError(false) }, 3000)
+        setLoading(false)
+      })
+
   };
 
+  const [user, setUser] = React.useState('nouser')
+  const [loginError, setLoginError] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+  React.useEffect(() => {
+    setUser(user)
+    setLoginError(loginError)
+  }, [user, loginError])
+
+
+
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" xs={false} sx={{ height: '100vh'}} justifyContent="center" alignItems="center">
+    <ThemeProvider theme={createTheme(themeOptions)}>
+      <Grid container component="main" sx={{ height: '100vh' }} justifyContent="center" alignItems="center">
         <CssBaseline />
         <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
           <Box
@@ -98,14 +108,29 @@ export default function SignInSide() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
+              {loginError ?
+              <Box display="flex" alignItems="center">
+                <WarningIcon color="error" sx={{mr: 1}}></WarningIcon>
+                <Typography component="h3" color="error">Incorrect login details</Typography>
+              </Box> : null}
+              {loading ?
+                <Box display="flex" justifyContent="center">
+                  <Rings height="50" width="50" color={themeOptions.palette.primary.main} />
+                </Box>
+                :
+                <Button
+                  type="submit"
+                  fullWidth
+                  disabled={loading}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign In
+                </Button>
+
+              }
+
+
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
