@@ -25,7 +25,7 @@ export default function Dashboard(props) {
     {user ? 
     (
       <ThemeProvider theme={createTheme(themeOptions)}>
-
+          
       </ThemeProvider>
     )
     : 
