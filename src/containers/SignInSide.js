@@ -17,8 +17,7 @@ import { login, isAuthenticated, getUser } from '../actions/auth';
 import { Navigate } from 'react-router-dom';
 import Loading from '../utils/Loading';
 import CSRFToken from '../components/CSRFToken';
-import { LinearProgress } from '@mui/material';
-
+import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 
 
 function Copyright(props) {
@@ -116,10 +115,12 @@ const SignInSide = () => {
                 label="Remember me"
               />
               {loginError ?
-              <Box display="flex" alignItems="center">
-                <WarningIcon color="error" sx={{mr: 1}}></WarningIcon>
-                <Typography component="h3" color="error">Incorrect login details</Typography>
-              </Box> 
+              <>
+              <Alert severity="error">
+                <AlertTitle>Incorrect credentials</AlertTitle>
+                User or password is incorrect
+              </Alert>
+              </>
               : null}
                 <Button
                   type="submit"
