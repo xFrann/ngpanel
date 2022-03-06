@@ -1,8 +1,18 @@
 import React from 'react'
-import SignInSide from './components/material/SignInSide'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import SignInSide from './containers/SignInSide'
+import Dashboard from './containers/Dashboard'
+const App = () => {
 
-export default function App() {
   return (
-    <SignInSide></SignInSide>
+      <Router>
+        <Routes>
+          {/* <Route path="/" element={SignInSide}></Route> */}
+          <Route path="/" element={<SignInSide></SignInSide>}></Route>
+          <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+        </Routes>
+      </Router>
   )
 }
+
+export default App;
