@@ -28,16 +28,17 @@ export default function CSRFToken() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                axios.get('http://127.0.0.1:8000/accounts/csrf_cookie')
+                axios.get('http://127.0.0.1:8000/accounts/csrf_cookie').then(res => {console.log(res)})
             } catch (error) {
                 console.log("Error while fetching CSRF Token" + error)
             }
         };
-        fetchData();
+        fetchData().then(res => {console.log(res)});
         setcsrftoken(getCookie('csrftoken'));
     }, []);
 
+
   return (
-    <input type='hidden' name='csrfmiddlewaretoken' value={csrftoken}/>
+    <input type='hidden' name='csrfmiddlewaretoken' value={"test"}/>
   )
 }
