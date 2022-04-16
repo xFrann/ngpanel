@@ -26,8 +26,5 @@ export const useFetchedData = (url) => {
  * @returns 
  */
 const checkIfUserRequest = (data) => {
-    if (data.user) {
-        return data.user
-    }
-    return data;
+    return data.user ? data.user : data;
 }
