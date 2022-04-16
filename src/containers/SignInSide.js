@@ -20,18 +20,7 @@ import CSRFToken from '../components/CSRFToken';
 import { Alert, AlertTitle, LinearProgress } from '@mui/material';
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://frann.dev">
-        frann.dev
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const SignInSide = () => {
 
@@ -131,6 +120,7 @@ const SignInSide = () => {
                 >
                   Sign In
                 </Button>
+              <Register></Register>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
@@ -141,4 +131,28 @@ const SignInSide = () => {
     </ThemeProvider>
     );
 }
+
+const Copyright = (props) => {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://frann.dev">
+        frann.dev
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const Register = (props) => {
+  return (
+    <Grid container justifyContent="end">
+      <Grid item>
+        <Link href="/register" variant="body2">Register</Link>
+      </Grid>
+    </Grid>
+  )
+}
+
 export default SignInSide;
