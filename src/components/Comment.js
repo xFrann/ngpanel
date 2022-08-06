@@ -6,27 +6,27 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import ProfileAvatar from './ProfileAvatar';
+import { NotificationsPausedTwoTone } from '@mui/icons-material';
 
 export default function Comment(props) {
 
+  const { comment } = props;
+  const { user, date, content } = comment;
+
   return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <ProfileAvatar username={user}></ProfileAvatar>
         </ListItemAvatar>
         <ListItemText
-          primary={`${props.user.first_name} ${props.user.last_name}`}
-          secondary={
+          secondary={<Typography variant="body2" sx={{fontSize: '0.8rem'}}>{date}</Typography>}
+          primary={
             <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                color="text.primary"
-              >
-                {props.date}
-              </Typography>
-              <Typography>{props.comment}</Typography>
+              <Typography component="span" sx={{fontWeight: '500',}}>{user}</Typography>
+              <Typography component="span" sx={{ margin: '0%', }}>  {content}</Typography>
+              
               
             </React.Fragment>
           }
