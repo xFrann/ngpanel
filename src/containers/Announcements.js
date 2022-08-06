@@ -21,7 +21,7 @@ export default function Annoucements(props) {
     style={{ minHeight: '100vh' }}
     >
       {loading ? <Loading></Loading> : 
-      announcement.map((k,i) => <Annoucement id={announcement[i].id} user={user} title={announcement[i].title} date={announcement[i].date} content={announcement[i].content} />)}
+      announcement.map((k,i) => <Annoucement key={`announcement_${i}`} announcement={announcement[i]} />)}
     </Grid>
     // 
   );
