@@ -1,13 +1,13 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { logout } from '../actions/auth'
 import Loading from '../utils/Loading';
 import { themeOptions } from '../utils/Theme'
 import PersistentDrawerLeft from './SideNav';
-import { Avatar, Chip } from '@mui/material';
 import UserPreview from '../components/UserPreview';
 import { useFetchedData } from '../customHooks/useFetchData';
+import { isCSRFTokenSet } from '../components/CSRFToken';
 
 export default function Dashboard(props) {
 
@@ -36,10 +36,11 @@ export default function Dashboard(props) {
       </ThemeProvider>
     )
     : 
-      <Loading /> 
+      isCSRFTokenSet() ? <Loading /> : <Navigate to="/"></Navigate>
     }
       <button onClick={e => handleLogout(e)}>Logout</button>
       
     </>
   )
 }
+
