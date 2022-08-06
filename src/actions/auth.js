@@ -1,5 +1,7 @@
 import Cookies from 'universal-cookie'
 import axios from 'axios';
+
+
 const cookies = new Cookies();
 
 
@@ -47,7 +49,7 @@ export const login = async (username, password) => {
         if (res.data.success) {
             return res.data;
         } else {
-            return null;
+            return res.data.error;
         }
 
     } catch (error) {
@@ -87,6 +89,30 @@ export const isAuthenticated = async () => {
 
 }
 
+export const getUserPictureURL = async (username) => {
+    const headers = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+            'X-CSRFTOKEN': cookies.get('csrftoken'),
+    }
+}
+    try {
+        const res = await axios.get(`http://127.0.0.1:8000/profiles/user/${username}/`, headers)
+        if (res.data.error || res.data.success === 'error') {
+            console.log("Error while getting user profile picture")
+        }
+        else if (res.data.success) {
+            return res.data.picture;
+        }
+        return res.data.picture;
+    } catch {
+        console.error("Error while requesting data")
+    }
+}
+
 
 export const logout = async () => {
     const headers = {
@@ -105,6 +131,7 @@ export const logout = async () => {
             console.log("Error occured")
         }
         else if (res.data.success) {
+            console.log("Logged out")
             return true;
         }
         else {
@@ -113,8 +140,8 @@ export const logout = async () => {
         }
 
     } catch (error) {
-        return false;
         console.error("Error while requesting data")
+        return false;
     }
 
 
