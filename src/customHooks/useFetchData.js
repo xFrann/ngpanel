@@ -9,7 +9,7 @@ export const useFetchedData = (url) => {
     useEffect(() => {
         setFetchedData({fetchedData: null, loading: true})
         axios.get(url).then(x => x.data).then(y => {setFetchedData({fetchedData: checkIfUserRequest(y), loading: false})})
-    }, [url])
+        }, [])
 
     return fetchedData;
 }
